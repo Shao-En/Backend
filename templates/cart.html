@@ -1,0 +1,12 @@
+{% for cart_item in cart_items %}
+<tr>
+    <td>{{ cart_item.product.name }}</td>
+    <td>{{ cart_item.product.description }}</td>
+    <td>{{ cart_item.product.price }}</td>
+
+    <td>{{ cart_item.product.price * cart_item.quantity }}</td>
+    <td>
+        <a href="#">移除</a>
+    </td>
+</tr>
+{% endfor %}

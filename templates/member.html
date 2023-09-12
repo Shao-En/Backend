@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>會員頁面</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">電商</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url_for('index') }}">首頁</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">產品</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">購物車</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav ml-auto">
+				{% if session.logged_in %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('index') }}">{{ session.username }}</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('logout') }}">登出</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('login') }}">登入</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('register') }}">註冊</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container mt-4">
+		<h1>會員資訊</h1>
+		<div class="row">
+			<div class="col-sm-6">
+				<form>
+					<div class="form-group">
+						<label for="username">使用者名稱:</label>
+						<input type="text" class="form-control" id="username" value="{{ user.username }}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="email">電子郵件:</label>
+						<input type="email" class="form-control" id="email" value="{{ user.email }}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="address">地址:</label>
+						<input type="text" class="form-control" id="address" value="{{ user.address }}" readonly>
+						<a href="{{ url_for('update_password') }}" class="btn btn-primary">修改密碼</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

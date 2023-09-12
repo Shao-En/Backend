@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>電商首頁</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function addToCart(productId) {
+        // 使用 AJAX 或其他方式將商品 ID 傳送到後端，執行 add_to_cart 的功能
+        // 這裡僅提供一個示例
+        $.ajax({
+            url: '/add_to_cart/' + productId,
+            type: 'POST',
+            success: function(response) {
+                // 在成功添加商品到購物車後，更新頁面或執行其他操作
+                // 例如，你可以使用 JavaScript 來更新購物車數量等信息
+                alert('已將商品添加到購物車');
+            },
+            error: function(error) {
+                alert('發生錯誤，無法添加商品到購物車');
+            }
+        });
+    }
+</script>
+
+
+
+
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">電商</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="#">首頁</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">產品</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url_for('view_cart') }}">購物車</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav ml-auto">
+				{% if session.logged_in %}
+					<li class="nav-item">
+						<a class="nav-link" href="#">{{ session.username }}</a>
+					</li>
+					{% if session.is_seller %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ url_for('add_product') }}">刊登商品</a>
+						</li>
+					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('member') }}">會員中心</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('logout') }}">登出</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('login') }}">登入</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('register') }}">註冊</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+
+    <div class="container mt-4">
+        <div class="jumbotron text-center">
+            <h1>Welcome to our online store</h1>
+            <p>We offer a wide range of products to suit your needs</p>
+        </div>
+
+        <div class="row">
+            {% for product in products %}
+            <div class="col-sm-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/' + product.image_url) }}" alt="Product Image" style="max-width: 300px; height: auto;">
+
+
+                    <div class="card-body">
+                        <h4 class="card-title">{{ product.name }}</h4>
+                        <p class="card-text">商品描述: {{ product.description }}</p>
+                        <p class="card-text">NT: {{ product.price }}</p>
+          		<form method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+              			  <button type="button" class="btn btn-primary" onclick="addToCart({{ product.id }})">Add to cart</button>
+           		</form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
+

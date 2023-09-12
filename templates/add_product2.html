@@ -1,0 +1,66 @@
+{% extends "member.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>會員中心</h1>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#profile" data-toggle="tab">基本資訊</a></li>
+        <li><a href="#products" data-toggle="tab">我的商品</a></li>
+        <li><a href="#password" data-toggle="tab">修改密碼</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="profile">
+            <h3>基本資訊</h3>
+            <p>使用者名稱: {{ user.username }}</p>
+            <p>電子郵件: {{ user.email }}</p>
+            <p>地址: {{ user.address }}</p>
+            <p>付款資訊: {{ user.payment_info }}</p>
+        </div>
+
+        <div class="tab-pane" id="products">
+            <h3>我的商品</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>商品名稱</th>
+                        <th>價格</th>
+                        <th>描述</th>
+                        <th>圖片</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in user.products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.description }}</td>
+                        <td><img src="{{ product.image_url }}" alt="{{ product.name }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane" id="password">
+            <h3>修改密碼</h3>
+            <form method="POST" action="{{ url_for('update_password') }}">
+                {{ csrf_token() }}
+                <div class="form-group">
+                    <label for="password">新密碼</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">確認新密碼</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">修改密碼</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

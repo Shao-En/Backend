@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Users</title>
+</head>
+<body>
+    <h1>Users</h1>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }}</li>
+            <ul>
+                <li>Email: {{ user.email }}</li>
+                <li>Address: {{ user.address }}</li>
+                <li>Payment Info: {{ user.payment_info }}</li>
+            </ul>
+        {% endfor %}
+    </ul>
+</body>
+</html>
